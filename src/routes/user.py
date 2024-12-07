@@ -22,6 +22,7 @@ limitations under the License.
 # // Imports
 import fastapi
 
+from responses import user
 from . import BaseRouter
 
 # // Main
@@ -35,4 +36,4 @@ class UserRouter(BaseRouter):
         Initializes a new instance of the UserRouter class.
         """
         
-        super().__init__(prefix = "/user", description = "Contains routes for user-related operations, like signing up, searching for users, etc.", tags = ["User", "Auth"])
+        super().__init__(prefix = "/user", tags = ["User", "Auth"])
