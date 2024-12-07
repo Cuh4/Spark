@@ -20,23 +20,9 @@ limitations under the License.
 """
 
 # // Imports
-import fastapi
-from log import logger
-
-from .base import BaseRouter
-from .user import UserRouter
+from pydantic import BaseModel
 
 # // Main
-all = [router for router in locals().values() if isinstance(router, type) and issubclass(router, fastapi.APIRouter) and router != BaseRouter]
-
-def add_routers(app: fastapi.FastAPI):
-    """
-    Adds all routers to the app.
-
-    Args:
-        app (fastapi.FastAPI): The app to use.
-    """
-    
-    for router in all:
-        logger.info(f"Adding router: {router.__name__}")
-        app.include_router(router())
+# class FooResponse(BaseModel):
+#     is_success: bool
+#     message: str

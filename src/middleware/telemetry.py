@@ -54,7 +54,7 @@ class TelemetryMiddleware(BaseHTTPMiddleware):
         """
         
         logger.info(f"[{request.client.host}:{request.client.port}] Received request: {request.method} -> {request.url}")
-        logger.info(f"Params: {request.query_params}")
+        logger.info("Params: " + ", ".join([f"{key}={value}" for key, value in request.query_params.items()]))
         
         response  = await call_next(request)
         return response

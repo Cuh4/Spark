@@ -26,19 +26,15 @@ import fastapi
 class BaseRouter(fastapi.APIRouter):
     """
     Represents a router for the API. Contains multiple API routes that can then be added to the API later under a group.
-
-    Args:
-        fastapi (_type_): _description_
     """    
     
-    def __init__(self, prefix: str, description: str, tags: list[str]):
+    def __init__(self, prefix: str, tags: list[str]):
         """
         Initializes a new instance of the BaseRouter class.
 
         Args:
             prefix (str): The prefix for the router
-            description (str): The description for the router in the API docs
             tags (list[str]): The tags that best fit this router
         """        
         
-        super().__init__(prefix = prefix, tags = tags, description = description)
+        super().__init__(prefix = prefix, tags = tags)
