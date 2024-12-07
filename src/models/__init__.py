@@ -27,6 +27,8 @@ from log import logger
 proxy = peewee.DatabaseProxy()
 from .user import User
 
+all = [model for model in locals().values() if isinstance(model, peewee.ModelBase)]
+
 def add_models(database: peewee.Database):
     """
     Adds all models to the database.
@@ -37,5 +39,5 @@ def add_models(database: peewee.Database):
     
     proxy.initialize(database)
     
-    logger.info("Adding models to database (tables).")
-    database.create_tables([model for model in locals().values() if isinstance(model, peewee.ModelBase)])
+    logger.info("Adding models to database (tables): " + ", ".join([model.__name__ for model in all]))
+    database.create_tables(all)

@@ -27,6 +27,8 @@ from log import logger
 from .telemetry import TelemetryMiddleware
 
 # // Main
+all = [middleware for middleware in locals().values() if isinstance(middleware, type) and issubclass(middleware, BaseHTTPMiddleware) and middleware != BaseHTTPMiddleware]
+
 def add_middleware(app: fastapi.FastAPI):
     """
     Adds all middleware to the app.
@@ -34,7 +36,7 @@ def add_middleware(app: fastapi.FastAPI):
     Args:
         app (fastapi.FastAPI): The app to use.
     """
-    
-    for middleware in [middleware for middleware in locals().values() if isinstance(middleware, BaseHTTPMiddleware)]:
+
+    for middleware in all:
         logger.info(f"Adding middleware: {middleware.__name__}")
         app.add_middleware(middleware)
