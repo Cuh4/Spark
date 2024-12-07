@@ -21,14 +21,26 @@ limitations under the License.
 
 # // Imports
 import peewee
+
 import uvicorn
 from fastapi import FastAPI
 
 from middleware import add_middleware
+from routes import add_routers
+from models import add_models
+
 from log import logger
 import config
 
 # // Main
+database = peewee.PostgresqlDatabase(
+    database = config.database_name,
+    host = config.database_host,
+    port = config.database_port,
+    user = config.database_user,
+    password = config.database_password
+)
+
 app = FastAPI(
     title = "Spark",
     description = "An API for the open-source recreation of YouTube, Spark.",
@@ -43,6 +55,11 @@ app = FastAPI(
 
 app.add_exception_handler(peewee.InternalError, lambda request, exc: logger.critical(f"Internal error: {exc}"))
 add_middleware(app)
+add_routers(app)
+add_models(database)
+
+app.add_event_handler("startup", lambda: logger.info("Spark API has started."))
+app.add_event_handler("shutdown", lambda: logger.info("Spark API has stopped."))
 
 if __name__ == "__main__":
     uvicorn.run(app, host = config.host, port = config.port, log_level = config.log_level)
